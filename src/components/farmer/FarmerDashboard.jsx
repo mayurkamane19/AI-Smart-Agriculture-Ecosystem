@@ -1,337 +1,536 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
-  Camera, Sliders, Calendar, Droplets, Bug, TrendingUp, 
-  DollarSign, Award, QrCode, Layers, Cpu, Radio, 
-  Plane, Globe, ShoppingBag, CloudSun, Zap, ArrowRight, Activity, MapPin, MessageSquare, ShieldCheck, Leaf, Shield
+  Sprout, Cpu, CloudRain, Sliders, Bug, TrendingUp, DollarSign, Award, 
+  MapPin, Radio, Plane, ShoppingBag, ShieldCheck, Leaf, Shield, Layers, 
+  Activity, Zap, ArrowRight, CheckCircle2, ChevronRight, Mic, Search, Bell, Plus, Wind, Droplets, Thermometer, Compass
 } from 'lucide-react';
 
 export default function FarmerDashboard({ activeTab, setActiveTab, onOpenVoice, onTriggerSOS }) {
-  
-  const MODULE_CARDS = [
-    {
-      id: 'aiDecisionCenter',
-      name: 'AI Decision Center',
-      desc: 'LangGraph Multi-Agent Flow & Master Decision',
-      badge: '⭐ Core AI',
-      icon: Cpu,
-      themeClass: 'card-violet',
-      topStripClass: 'top-strip-violet',
-      iconBgClass: 'icon-bg-violet',
-      badgeTextClass: 'text-violet-300 bg-violet-950/80 border-violet-500/30'
-    },
-    {
-      id: 'agentDebate',
-      name: 'Agent Debate & XAI',
-      desc: 'Transparent AI Agent Reasoning & Consensus',
-      badge: 'XAI Engine',
-      icon: MessageSquare,
-      themeClass: 'card-purple',
-      topStripClass: 'top-strip-purple',
-      iconBgClass: 'icon-bg-purple',
-      badgeTextClass: 'text-purple-300 bg-purple-950/80 border-purple-500/30'
-    },
-    {
-      id: 'smartFarmMap',
-      name: 'Smart Farm Map',
-      desc: '2D Real Farm Schematic & GIS Satellites',
-      badge: 'GIS Spatial',
-      icon: MapPin,
-      themeClass: 'card-deepblue',
-      topStripClass: 'top-strip-deepblue',
-      iconBgClass: 'icon-bg-deepblue',
-      badgeTextClass: 'text-blue-300 bg-blue-950/80 border-blue-500/30'
-    },
-    {
-      id: 'droneMission',
-      name: 'Drone Mission Planner',
-      desc: 'Autonomous UAV Flight & Weed Spotter',
-      badge: 'Aerial Drone',
-      icon: Plane,
-      themeClass: 'card-skyblue',
-      topStripClass: 'top-strip-skyblue',
-      iconBgClass: 'icon-bg-skyblue',
-      badgeTextClass: 'text-sky-300 bg-sky-950/80 border-sky-500/30'
-    },
-    {
-      id: 'autonomousIrrigation',
-      name: 'Autonomous Irrigation',
-      desc: 'Closed-Loop Solenoid Actuator Control',
-      badge: 'IoT Actuator',
-      icon: Droplets,
-      themeClass: 'card-blue',
-      topStripClass: 'top-strip-blue',
-      iconBgClass: 'icon-bg-blue',
-      badgeTextClass: 'text-blue-400 bg-blue-950/80 border-blue-500/30'
-    },
-    {
-      id: 'blockchainTrace',
-      name: 'Blockchain Traceability',
-      desc: 'Immutable Produce Batch QR Provenance',
-      badge: 'On-Chain QR',
-      icon: ShieldCheck,
-      themeClass: 'card-purple',
-      topStripClass: 'top-strip-purple',
-      iconBgClass: 'icon-bg-purple',
-      badgeTextClass: 'text-purple-300 bg-purple-950/80 border-purple-500/30'
-    },
-    {
-      id: 'carbonCredit',
-      name: 'Carbon Credit & Eco',
-      desc: 'CO2 Offset Sequestration & Credits',
-      badge: 'ISO 14064',
-      icon: Leaf,
-      themeClass: 'card-emerald',
-      topStripClass: 'top-strip-emerald',
-      iconBgClass: 'icon-bg-emerald',
-      badgeTextClass: 'text-emerald-300 bg-emerald-950/80 border-emerald-500/30'
-    },
-    {
-      id: 'stateCommand',
-      name: 'District AI Command',
-      desc: 'Macro Operations Monitoring & Alerts',
-      badge: 'Macro Ops',
-      icon: Shield,
-      themeClass: 'card-red',
-      topStripClass: 'top-strip-red',
-      iconBgClass: 'icon-bg-red',
-      badgeTextClass: 'text-red-400 bg-red-950/80 border-red-500/30'
-    },
-    {
-      id: 'advancedAnalytics',
-      name: 'Advanced Analytics',
-      desc: 'Recharts Monthly Profit, Yield, Water & ROI',
-      badge: 'Analytics',
-      icon: Activity,
-      themeClass: 'card-cyan',
-      topStripClass: 'top-strip-cyan',
-      iconBgClass: 'icon-bg-cyan',
-      badgeTextClass: 'text-cyan-300 bg-cyan-950/80 border-cyan-500/30'
-    },
-    {
-      id: 'cropDoctor',
-      name: 'AI Crop Doctor',
-      desc: 'YOLOv11 Leaf Scan & Vision Diagnosis',
-      badge: 'Vision AI',
-      icon: Camera,
-      themeClass: 'card-green',
-      topStripClass: 'top-strip-green',
-      iconBgClass: 'icon-bg-green',
-      badgeTextClass: 'text-emerald-400 bg-emerald-950/80 border-emerald-500/30'
-    },
-    {
-      id: 'soilAnalyzer',
-      name: 'AI Soil Analyzer',
-      desc: 'Soil pH & NPK Nutrient Sliders',
-      badge: 'NPK Engine',
-      icon: Sliders,
-      themeClass: 'card-brown',
-      topStripClass: 'top-strip-brown',
-      iconBgClass: 'icon-bg-brown',
-      badgeTextClass: 'text-amber-400 bg-amber-950/80 border-amber-500/30'
-    },
-    {
-      id: 'farmPlanner',
-      name: 'AI Farm Planner',
-      desc: 'Crop Plan & Net Profit Estimator',
-      badge: 'Yield Wizard',
-      icon: Calendar,
-      themeClass: 'card-amber',
-      topStripClass: 'top-strip-amber',
-      iconBgClass: 'icon-bg-amber',
-      badgeTextClass: 'text-yellow-400 bg-yellow-950/80 border-yellow-500/30'
-    },
-    {
-      id: 'diseasePredict',
-      name: 'AI Disease Warning',
-      desc: 'Early Microclimate Infection Radar',
-      badge: 'Risk Warning',
-      icon: Bug,
-      themeClass: 'card-red',
-      topStripClass: 'top-strip-red',
-      iconBgClass: 'icon-bg-red',
-      badgeTextClass: 'text-red-400 bg-red-950/80 border-red-500/30'
-    },
-    {
-      id: 'marketIntel',
-      name: 'AI Mandi Market',
-      desc: 'Real-time & 15-Day Price Forecast',
-      badge: 'Live Mandi',
-      icon: TrendingUp,
-      themeClass: 'card-orange',
-      topStripClass: 'top-strip-orange',
-      iconBgClass: 'icon-bg-orange',
-      badgeTextClass: 'text-orange-400 bg-orange-950/80 border-orange-500/30'
-    },
-    {
-      id: 'passport',
-      name: 'Agri Digital Passport',
-      desc: '1st Prize Unique Farm Identity Badge',
-      badge: '⭐ 1st Prize',
-      icon: QrCode,
-      themeClass: 'card-purple',
-      topStripClass: 'top-strip-purple',
-      iconBgClass: 'icon-bg-purple',
-      badgeTextClass: 'text-purple-300 bg-purple-950/80 border-purple-500/30'
-    },
-    {
-      id: 'digitalTwin',
-      name: 'AI Digital Twin',
-      desc: 'Virtual Field Simulator & Heatmaps',
-      badge: 'Virtual Twin',
-      icon: Layers,
-      themeClass: 'card-cyan',
-      topStripClass: 'top-strip-cyan',
-      iconBgClass: 'icon-bg-cyan',
-      badgeTextClass: 'text-cyan-400 bg-cyan-950/80 border-cyan-500/30'
-    },
-    {
-      id: 'expense',
-      name: 'Expense & ROI',
-      desc: 'Farm Expenses & Profitability Ledger',
-      badge: 'Finance ROI',
-      icon: DollarSign,
-      themeClass: 'card-emerald',
-      topStripClass: 'top-strip-emerald',
-      iconBgClass: 'icon-bg-emerald',
-      badgeTextClass: 'text-emerald-300 bg-emerald-950/80 border-emerald-500/30'
-    },
-    {
-      id: 'schemes',
-      name: 'Govt Schemes',
-      desc: 'PM-Kisan & Subsidy Eligibility',
-      badge: 'Subsidies',
-      icon: Award,
-      themeClass: 'card-yellow',
-      topStripClass: 'top-strip-yellow',
-      iconBgClass: 'icon-bg-yellow',
-      badgeTextClass: 'text-yellow-300 bg-yellow-950/80 border-yellow-500/30'
-    },
-    {
-      id: 'iot',
-      name: 'IoT Telemetry',
-      desc: 'Live Sensor Devices Broadcast',
-      badge: 'Live Sensors',
-      icon: Radio,
-      themeClass: 'card-indigo',
-      topStripClass: 'top-strip-indigo',
-      iconBgClass: 'icon-bg-indigo',
-      badgeTextClass: 'text-indigo-300 bg-indigo-950/80 border-indigo-500/30'
-    },
-    {
-      id: 'marketplace',
-      name: 'Agri Marketplace',
-      desc: 'Seeds, Fertilizers & Equipment Rent',
-      badge: 'B2B Market',
-      icon: ShoppingBag,
-      themeClass: 'card-pink',
-      topStripClass: 'top-strip-pink',
-      iconBgClass: 'icon-bg-pink',
-      badgeTextClass: 'text-pink-300 bg-pink-950/80 border-pink-500/30'
-    }
-  ];
+  const [selectedCity, setSelectedCity] = useState("Madhya Pradesh");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 text-slate-100 font-sans pb-10">
       
-      {/* Hero Welcome Banner */}
-      <div className="glass-panel p-6 bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border-l-4 border-l-emerald-500 shadow-2xl">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* Top Header Row with Welcome Banner & Top Stat Widgets */}
+      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-4">
+        
+        {/* Welcome Banner */}
+        <div className="glass-panel p-5 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 flex-1 flex flex-col justify-between rounded-2xl shadow-xl">
           <div>
-            <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider">Farmer Portal • Ramesh Patel</span>
-            <h2 className="text-2xl font-extrabold text-white-pure mt-1">रामेश्वर जी, कृषिवर्स AI में आपका स्वागत है 🙏</h2>
-            <p className="text-xs text-slate-light mt-1">
-              Farm: Patel Organic Plot • Shirur, Pune, MH • 2.5 Acres Irrigated
+            <h2 className="text-xl sm:text-2xl font-black text-white-pure flex items-center space-x-2">
+              <span>नमस्ते, किसान! 👋 AI आपका स्वागत करता है ।</span>
+            </h2>
+            <p className="text-xs text-slate-400 mt-1">
+              यहाँ आपके खेत और निर्णय का संपूर्ण अवलोकन है । (Patel Organic Plot • 2.5 Acres)
             </p>
           </div>
 
-          <button
-            onClick={onOpenVoice}
-            className="bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-extrabold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 shadow-lg shadow-emerald-500/30 transition-all cursor-pointer"
-          >
-            <Zap className="w-4 h-4 animate-bounce" />
-            <span>Ask Voice AI Assistant</span>
+          <div className="flex flex-wrap items-center gap-3 mt-4">
+            <button
+              onClick={onOpenVoice}
+              className="bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold px-3.5 py-2 rounded-xl text-xs flex items-center space-x-2 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
+            >
+              <Zap className="w-4 h-4 fill-black" />
+              <span>Ask Voice AI Assistant</span>
+            </button>
+
+            <button
+              onClick={onTriggerSOS}
+              className="bg-red-600 hover:bg-red-500 text-white font-extrabold px-3.5 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-lg shadow-red-600/30 animate-pulse transition-all cursor-pointer"
+            >
+              <span>🚨 SOS Emergency</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Top Stat Pills */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:w-[58%]">
+          
+          <div className="bg-slate-950/80 p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between">
+            <span className="text-[10px] text-slate-400 font-bold uppercase">Total Farms</span>
+            <div>
+              <p className="text-2xl font-black text-white-pure">12</p>
+              <span className="text-[10px] text-emerald-400 font-bold">+2 This Month</span>
+            </div>
+          </div>
+
+          <div className="bg-slate-950/80 p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between">
+            <span className="text-[10px] text-slate-400 font-bold uppercase">Total Area</span>
+            <div>
+              <p className="text-2xl font-black text-white-pure">45.6 Acres</p>
+              <span className="text-[10px] text-emerald-400 font-bold">+5.3 Acres</span>
+            </div>
+          </div>
+
+          <div className="bg-slate-950/80 p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between">
+            <span className="text-[10px] text-slate-400 font-bold uppercase">Active Agents</span>
+            <div>
+              <p className="text-2xl font-black text-white-pure">7/7</p>
+              <span className="text-[10px] text-emerald-400 font-bold">All Systems Active</span>
+            </div>
+          </div>
+
+          <div className="bg-slate-950/80 p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between relative overflow-hidden">
+            <span className="text-[10px] text-slate-400 font-bold uppercase">AI Confidence</span>
+            <div>
+              <p className="text-2xl font-black text-emerald-400">96.8%</p>
+              <span className="text-[10px] text-emerald-300 font-bold">Very High</span>
+            </div>
+            <button className="mt-2 bg-emerald-500 hover:bg-emerald-400 text-black text-[11px] font-black py-1 px-2 rounded-lg flex items-center justify-center space-x-1 shadow">
+              <Plus className="w-3 h-3" />
+              <span>Add Farm</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* ROW 1: AI Multi-Agent Decision Center & MASTER AI DECISION */}
+      <div className="glass-panel p-5 bg-gradient-to-r from-[#0d1627] via-[#09111e] to-[#0d1627] border border-purple-500/30 rounded-2xl shadow-2xl space-y-4">
+        
+        <div className="flex items-center justify-between border-b border-purple-500/20 pb-3">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300">
+              <Cpu className="w-4 h-4" />
+            </div>
+            <h3 className="text-base font-black text-white-pure">AI Multi-Agent Decision Center</h3>
+          </div>
+          <button onClick={() => setActiveTab('aiDecisionCenter')} className="text-xs text-purple-300 font-extrabold hover:text-white flex items-center space-x-1 cursor-pointer">
+            <span>Open Decision Flow</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        {/* Quick KPI Stat Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-slate-800">
-          <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-            <p className="text-[10px] text-amber-400 font-bold uppercase flex items-center space-x-1">
-              <CloudSun className="w-3.5 h-3.5" />
-              <span>Weather Today</span>
-            </p>
-            <p className="text-base font-extrabold text-white-pure">31.5°C • Cloudy</p>
-            <p className="text-[10px] text-sky-400">Humidity: 78%</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          
+          {/* 7 Agent Cards (Left 7 Cols) */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            
+            <div className="bg-slate-950/90 p-3 rounded-xl border border-sky-500/40 space-y-1">
+              <div className="flex justify-between items-center text-[11px]">
+                <span className="font-extrabold text-sky-400 flex items-center space-x-1">
+                  <CloudRain className="w-3.5 h-3.5" />
+                  <span>Weather Agent</span>
+                </span>
+                <span className="bg-sky-950 text-sky-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-sky-800">96.3%</span>
+              </div>
+              <p className="text-xs font-bold text-white-pure">78% Rain tomorrow</p>
+              <p className="text-[10px] text-slate-400">Monsoon & Micro-Climate</p>
+            </div>
+
+            <div className="bg-slate-950/90 p-3 rounded-xl border border-amber-500/40 space-y-1">
+              <div className="flex justify-between items-center text-[11px]">
+                <span className="font-extrabold text-amber-400 flex items-center space-x-1">
+                  <Sliders className="w-3.5 h-3.5" />
+                  <span>Soil Agent</span>
+                </span>
+                <span className="bg-amber-950 text-amber-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-amber-800">94.2%</span>
+              </div>
+              <p className="text-xs font-bold text-white-pure">pH 6.8 - NPK Balanced</p>
+              <p className="text-[10px] text-slate-400">NPK & pH Analysis</p>
+            </div>
+
+            <div className="bg-slate-950/90 p-3 rounded-xl border border-emerald-500/40 space-y-1">
+              <div className="flex justify-between items-center text-[11px]">
+                <span className="font-extrabold text-emerald-400 flex items-center space-x-1">
+                  <Sprout className="w-3.5 h-3.5" />
+                  <span>Crop Agent</span>
+                </span>
+                <span className="bg-emerald-950 text-emerald-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-emerald-800">98.1%</span>
+              </div>
+              <p className="text-xs font-bold text-white-pure">Tomato: Flowering Stage</p>
+              <p className="text-[10px] text-slate-400">Phenology & Growth</p>
+            </div>
+
+            <div className="bg-slate-950/90 p-3 rounded-xl border border-red-500/40 space-y-1">
+              <div className="flex justify-between items-center text-[11px]">
+                <span className="font-extrabold text-red-400 flex items-center space-x-1">
+                  <Bug className="w-3.5 h-3.5" />
+                  <span>Disease Agent</span>
+                </span>
+                <span className="bg-red-950 text-red-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-red-800">91.8%</span>
+              </div>
+              <p className="text-xs font-bold text-white-pure">Low Risk</p>
+              <p className="text-[10px] text-slate-400">Spore Germination Risk</p>
+            </div>
+
+            <div className="bg-slate-950/90 p-3 rounded-xl border border-emerald-500/40 space-y-1">
+              <div className="flex justify-between items-center text-[11px]">
+                <span className="font-extrabold text-emerald-400 flex items-center space-x-1">
+                  <DollarSign className="w-3.5 h-3.5" />
+                  <span>Finance Agent</span>
+                </span>
+                <span className="bg-emerald-950 text-emerald-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-emerald-800">97.4%</span>
+              </div>
+              <p className="text-xs font-bold text-white-pure">ROI: 41% (Projected)</p>
+              <p className="text-[10px] text-slate-400">Expense & ROI Engine</p>
+            </div>
+
+            <div className="bg-slate-950/90 p-3 rounded-xl border border-orange-500/40 space-y-1">
+              <div className="flex justify-between items-center text-[11px]">
+                <span className="font-extrabold text-orange-400 flex items-center space-x-1">
+                  <TrendingUp className="w-3.5 h-3.5" />
+                  <span>Market Agent</span>
+                </span>
+                <span className="bg-orange-950 text-orange-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-orange-800">95.2%</span>
+              </div>
+              <p className="text-xs font-bold text-white-pure">Tomato: ₹2,500/quintal</p>
+              <p className="text-[10px] text-slate-400">Price Trends & Prediction</p>
+            </div>
+
+            <div className="bg-slate-950/90 p-3 rounded-xl border border-yellow-500/40 sm:col-span-2 space-y-1">
+              <div className="flex justify-between items-center text-[11px]">
+                <span className="font-extrabold text-yellow-400 flex items-center space-x-1">
+                  <Award className="w-3.5 h-3.5" />
+                  <span>Govt. Scheme Agent</span>
+                </span>
+                <span className="bg-yellow-950 text-yellow-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-yellow-800">99.1%</span>
+              </div>
+              <p className="text-xs font-bold text-white-pure">PM-KISAN, NHM Eligible</p>
+              <p className="text-[10px] text-slate-400">Subsidies & Benefits</p>
+            </div>
+
           </div>
 
-          <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-            <p className="text-[10px] text-teal-400 font-bold uppercase">AI Health Score</p>
-            <p className="text-base font-extrabold text-amber-300">92.5 / 100</p>
-            <p className="text-[10px] text-emerald-400">Grade A+ Excellent</p>
+          {/* Master AI Decision Box (Right 5 Cols) */}
+          <div className="lg:col-span-5 bg-gradient-to-br from-purple-950/90 via-slate-950 to-indigo-950/90 p-4 rounded-xl border-2 border-purple-400/80 flex flex-col justify-between space-y-3 shadow-xl">
+            <div className="flex items-center justify-between border-b border-purple-500/30 pb-2">
+              <div className="flex items-center space-x-2">
+                <Cpu className="w-5 h-5 text-purple-300 animate-pulse" />
+                <h4 className="text-sm font-extrabold text-white-pure">MASTER AI DECISION</h4>
+              </div>
+              <span className="text-[10px] font-extrabold text-emerald-400">AI Confidence: 96.8%</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="bg-slate-900/90 p-2.5 rounded-lg border border-sky-500/40">
+                <span className="text-[9px] text-sky-300 font-bold uppercase block">💧 Irrigation</span>
+                <span className="font-extrabold text-white-pure block mt-0.5">Don't Irrigate Today</span>
+                <span className="text-[9px] text-slate-400 block mt-0.5">Next: Tomorrow</span>
+              </div>
+
+              <div className="bg-slate-900/90 p-2.5 rounded-lg border border-amber-500/40">
+                <span className="text-[9px] text-amber-300 font-bold uppercase block">🌿 Fertilizer</span>
+                <span className="font-extrabold text-white-pure block mt-0.5">Apply after 3 Days</span>
+                <span className="text-[9px] text-slate-400 block mt-0.5">19:19:19 NPK</span>
+              </div>
+
+              <div className="bg-slate-900/90 p-2.5 rounded-lg border border-emerald-500/40">
+                <span className="text-[9px] text-emerald-300 font-bold uppercase block">🌾 Harvest Window</span>
+                <span className="font-extrabold text-white-pure block mt-0.5">Best after 7 Days</span>
+                <span className="text-[9px] text-slate-400 block mt-0.5">Nov 18 - Nov 22</span>
+              </div>
+
+              <div className="bg-slate-900/90 p-2.5 rounded-lg border border-purple-500/40">
+                <span className="text-[9px] text-purple-300 font-bold uppercase block">✨ Expected Profit</span>
+                <span className="font-black text-amber-300 text-sm block mt-0.5">₹1,98,450</span>
+                <span className="text-[9px] text-emerald-400 block mt-0.5">Net ROI: 41%</span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-            <p className="text-[10px] text-sky-400 font-bold uppercase">Smart Irrigation</p>
-            <p className="text-base font-extrabold text-sky-300">SKIP TODAY</p>
-            <p className="text-[10px] text-sky-200">78% Rain Thursday</p>
-          </div>
-
-          <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-            <p className="text-[10px] text-emerald-400 font-bold uppercase">Est. Net Profit</p>
-            <p className="text-base font-extrabold text-amber-300">₹1,98,450</p>
-            <p className="text-[10px] text-emerald-400">ROI: 441%</p>
-          </div>
         </div>
+
       </div>
 
-      {/* Main AI Module Directory Grid */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-extrabold text-white-pure flex items-center space-x-2">
-            <span>AI Enterprise Modules & Tools</span>
-          </h3>
-          <span className="text-xs text-emerald-400 font-medium">Click any card to launch tool</span>
+      {/* ROW 2: 5 Main Core Live Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        
+        {/* 1. IoT Live Monitoring */}
+        <button
+          onClick={() => setActiveTab('iot')}
+          className="glass-panel p-4 text-left border border-cyan-500/30 rounded-2xl hover:border-cyan-400 transition-all flex flex-col justify-between space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <Radio className="w-4 h-4 text-cyan-400 animate-pulse" />
+              <span>IoT Live Monitoring</span>
+            </span>
+            <span className="bg-emerald-500/20 text-emerald-400 text-[9px] font-bold px-1.5 py-0.5 rounded">● Live</span>
+          </div>
+
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between"><span className="text-slate-400">💧 Soil Moisture</span><span className="font-extrabold text-cyan-300">63.1% (Optimal)</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">🌡️ Soil Temp.</span><span className="font-extrabold text-amber-300">31.2°C (Ideal)</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">🧪 pH Level</span><span className="font-extrabold text-emerald-400">6.8 (Neutral)</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">💨 Air Humidity</span><span className="font-extrabold text-sky-300">58% (Normal)</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">🔋 Battery Level</span><span className="font-extrabold text-emerald-400">94% (Good)</span></div>
+            <div className="flex justify-between"><span className="text-slate-400">📶 Signal Strength</span><span className="font-extrabold text-cyan-400">-65 dBm (Strong)</span></div>
+          </div>
+
+          <div className="border-t border-slate-800 pt-2 text-[10px] text-emerald-400 font-bold">
+            Sensor Status: 12/12 Online
+          </div>
+        </button>
+
+        {/* 2. GIS Farm Layout */}
+        <button
+          onClick={() => setActiveTab('smartFarmMap')}
+          className="glass-panel p-4 text-left border border-emerald-500/30 rounded-2xl hover:border-emerald-400 transition-all flex flex-col justify-between space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <MapPin className="w-4 h-4 text-emerald-400" />
+              <span>GIS Farm Layout</span>
+            </span>
+          </div>
+
+          <div className="h-28 rounded-xl bg-slate-900 border border-slate-800 relative overflow-hidden flex items-center justify-center p-2 text-[10px] text-emerald-300 font-bold">
+            <div className="grid grid-cols-2 gap-1 w-full text-center">
+              <div className="bg-emerald-950/60 p-1.5 rounded border border-emerald-500/40">Zone A: Tomato</div>
+              <div className="bg-amber-950/60 p-1.5 rounded border border-amber-500/40">Zone B: Wheat</div>
+              <div className="bg-cyan-950/60 p-1.5 rounded border border-cyan-500/40">Zone C: Chickpea</div>
+              <div className="bg-red-950/60 p-1.5 rounded border border-red-500/40">Zone D: Fallow</div>
+            </div>
+          </div>
+
+          <div className="text-[10px] text-slate-400 font-medium">
+            2.5-Acre Polygon • Drip Pipe Lines
+          </div>
+        </button>
+
+        {/* 3. 3D Farm Digital Twin */}
+        <button
+          onClick={() => setActiveTab('digitalTwin')}
+          className="glass-panel p-4 text-left border border-cyan-500/30 rounded-2xl hover:border-cyan-400 transition-all flex flex-col justify-between space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <Layers className="w-4 h-4 text-cyan-400" />
+              <span>3D Farm Digital Twin</span>
+            </span>
+            <span className="bg-cyan-500/20 text-cyan-300 text-[9px] font-bold px-1.5 py-0.5 rounded">● Live</span>
+          </div>
+
+          <div className="h-28 rounded-xl overflow-hidden relative border border-slate-800">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80" alt="3D Twin" className="w-full h-full object-cover" />
+            <div className="absolute bottom-1 left-1 right-1 flex justify-between gap-1 text-[8px] font-black">
+              <span className="bg-black/80 px-1 py-0.5 rounded text-white">3D View</span>
+              <span className="bg-black/80 px-1 py-0.5 rounded text-cyan-300">Sensors</span>
+            </div>
+          </div>
+
+          <div className="text-[10px] text-slate-400 font-medium">
+            Virtual Twin • Heatmap Simulation
+          </div>
+        </button>
+
+        {/* 4. Drone Mission Planner */}
+        <button
+          onClick={() => setActiveTab('droneMission')}
+          className="glass-panel p-4 text-left border border-sky-500/30 rounded-2xl hover:border-sky-400 transition-all flex flex-col justify-between space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <Plane className="w-4 h-4 text-sky-400" />
+              <span>Drone Mission Planner</span>
+            </span>
+            <span className="bg-sky-500/20 text-sky-300 text-[9px] font-bold px-1.5 py-0.5 rounded">Active</span>
+          </div>
+
+          <div className="h-28 rounded-xl overflow-hidden relative border border-slate-800">
+            <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=400&q=80" alt="Drone" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-xs font-extrabold text-white">
+              72% Progress
+            </div>
+          </div>
+
+          <div className="text-[10px] text-slate-400 font-medium">
+            Agras T40 UAV • 4K Weed Scanner
+          </div>
+        </button>
+
+        {/* 5. Weather Intelligence */}
+        <button
+          onClick={() => setActiveTab('cropDoctor')}
+          className="glass-panel p-4 text-left border border-amber-500/30 rounded-2xl hover:border-amber-400 transition-all flex flex-col justify-between space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <CloudRain className="w-4 h-4 text-amber-400" />
+              <span>Weather Intelligence</span>
+            </span>
+            <span className="bg-emerald-500/20 text-emerald-400 text-[9px] font-bold px-1.5 py-0.5 rounded">● Live</span>
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-2xl font-black text-white-pure">27.4°C</p>
+            <p className="text-[10px] text-slate-400">Partly Cloudy • Rain 78% Thu</p>
+          </div>
+
+          <div className="text-[10px] text-slate-400 font-medium">
+            Wind: 12 km/h • Humidity: 63%
+          </div>
+        </button>
+
+      </div>
+
+      {/* ROW 3: 4 Enterprise Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        {/* Marketplace Overview */}
+        <button
+          onClick={() => setActiveTab('marketplace')}
+          className="glass-panel p-4 text-left border border-pink-500/30 rounded-2xl hover:border-pink-400 transition-all space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <ShoppingBag className="w-4 h-4 text-pink-400" />
+              <span>Marketplace Overview</span>
+            </span>
+            <span className="text-[10px] text-pink-300 font-bold">View All</span>
+          </div>
+
+          <div className="grid grid-cols-4 gap-1 text-[9px] text-center">
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="font-bold text-white">Seeds</p><p className="text-slate-400">24+ Products</p></div>
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="font-bold text-white">Fertilizers</p><p className="text-slate-400">18+ Products</p></div>
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="font-bold text-white">Equipment</p><p className="text-slate-400">32+ Products</p></div>
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="font-bold text-white">Rent Drone</p><p className="text-slate-400">Available</p></div>
+          </div>
+        </button>
+
+        {/* Carbon Credit Dashboard */}
+        <button
+          onClick={() => setActiveTab('carbonCredit')}
+          className="glass-panel p-4 text-left border border-emerald-500/30 rounded-2xl hover:border-emerald-400 transition-all space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <Leaf className="w-4 h-4 text-emerald-400" />
+              <span>Carbon Credit Dashboard</span>
+            </span>
+            <span className="text-[10px] text-emerald-400 font-bold">This Month</span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 text-center text-xs">
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="text-[9px] text-slate-400">Saved</p><p className="font-black text-emerald-400">1.24 Ton</p></div>
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="text-[9px] text-slate-400">Score</p><p className="font-black text-amber-300">92/100</p></div>
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="text-[9px] text-slate-400">Green</p><p className="font-black text-cyan-300">85%</p></div>
+          </div>
+        </button>
+
+        {/* Blockchain Traceability */}
+        <button
+          onClick={() => setActiveTab('blockchainTrace')}
+          className="glass-panel p-4 text-left border border-purple-500/30 rounded-2xl hover:border-purple-400 transition-all space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <ShieldCheck className="w-4 h-4 text-purple-400" />
+              <span>Blockchain Traceability</span>
+            </span>
+            <span className="text-[10px] text-purple-300 font-bold">Verified</span>
+          </div>
+
+          <div className="flex items-center justify-between text-[9px] text-slate-300 pt-1">
+            <span>Farm ➔</span>
+            <span>Harvest ➔</span>
+            <span>Warehouse ➔</span>
+            <span>Retail</span>
+          </div>
+        </button>
+
+        {/* Live Analytics */}
+        <button
+          onClick={() => setActiveTab('advancedAnalytics')}
+          className="glass-panel p-4 text-left border border-cyan-500/30 rounded-2xl hover:border-cyan-400 transition-all space-y-3 cursor-pointer bg-slate-950/80"
+        >
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span className="text-xs font-extrabold text-white-pure flex items-center space-x-1.5">
+              <Activity className="w-4 h-4 text-cyan-400" />
+              <span>Live Analytics</span>
+            </span>
+            <span className="text-[10px] text-cyan-300 font-bold">This Week</span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="text-[9px] text-slate-400">Yield</p><p className="font-bold text-emerald-400">+18.6%</p></div>
+            <div className="bg-slate-900 p-2 rounded-lg border border-slate-800"><p className="text-[9px] text-slate-400">Revenue</p><p className="font-bold text-amber-300">+22.5%</p></div>
+          </div>
+        </button>
+
+      </div>
+
+      {/* ROW 4: Command Center & Voice Copilot */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        
+        {/* Government Command Center */}
+        <div className="lg:col-span-7 glass-panel p-5 bg-slate-950/90 border border-slate-800 rounded-2xl space-y-3">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div className="flex items-center space-x-2">
+              <Shield className="w-5 h-5 text-red-400" />
+              <h3 className="text-sm font-extrabold text-white-pure">Government Command Center</h3>
+            </div>
+            
+            <select
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+              className="bg-slate-900 border border-slate-700 text-xs text-white px-2 py-1 rounded-lg outline-none cursor-pointer"
+            >
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Punjab">Punjab</option>
+            </select>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 text-center text-xs pt-1">
+            <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
+              <p className="text-[10px] text-slate-400 font-bold uppercase">Crop Production</p>
+              <p className="text-base font-black text-emerald-400 mt-1">↑ 12.6%</p>
+              <p className="text-[9px] text-slate-400">vs Last Month</p>
+            </div>
+
+            <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
+              <p className="text-[10px] text-slate-400 font-bold uppercase">Water Availability</p>
+              <p className="text-base font-black text-sky-400 mt-1">68%</p>
+              <p className="text-[9px] text-slate-400">Moderate Level</p>
+            </div>
+
+            <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
+              <p className="text-[10px] text-slate-400 font-bold uppercase">Active Alerts</p>
+              <p className="text-base font-black text-red-400 mt-1">3</p>
+              <p className="text-[9px] text-red-300">Requires Attention</p>
+            </div>
+          </div>
         </div>
 
-        {/* Responsive Colorized Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {MODULE_CARDS.map((card) => {
-            const Icon = card.icon;
-            const isSelected = activeTab === card.id;
+        {/* AI Voice Copilot Input Card */}
+        <div className="lg:col-span-5 glass-panel p-5 bg-gradient-to-br from-indigo-950/80 via-slate-950 to-slate-950 border border-indigo-500/40 rounded-2xl space-y-3 flex flex-col justify-between">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Mic className="w-5 h-5 text-indigo-400 animate-pulse" />
+              <h3 className="text-sm font-extrabold text-white-pure">AI Voice Copilot</h3>
+            </div>
+            <span className="text-[10px] font-bold text-slate-400">Your Farming Assistant</span>
+          </div>
 
-            return (
-              <button
-                key={card.id}
-                onClick={() => setActiveTab(card.id)}
-                className={`module-card ${card.themeClass} p-5 text-left cursor-pointer transition-all ${
-                  isSelected ? 'ring-2 ring-white scale-[1.03]' : ''
-                }`}
-              >
-                <div className={`top-strip ${card.topStripClass}`} />
-
-                <div className="flex items-start justify-between mb-3 pt-2">
-                  <div className={`w-12 h-12 rounded-xl ${card.iconBgClass} flex items-center justify-center text-white shadow-lg shrink-0`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-
-                  <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full border shadow-sm ${card.badgeTextClass}`}>
-                    {card.badge}
-                  </span>
-                </div>
-
-                <div className="space-y-1 mt-1">
-                  <h4 className="text-base font-extrabold text-white-pure tracking-tight flex items-center justify-between">
-                    <span>{card.name}</span>
-                    <ArrowRight className="w-4 h-4 text-slate-400 hover:text-white transition-colors" />
-                  </h4>
-                  <p className="text-xs text-slate-light leading-snug line-clamp-2">
-                    {card.desc}
-                  </p>
-                </div>
-              </button>
-            );
-          })}
+          <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <input
+              type="text"
+              placeholder="आप क्या जानना चाहते हैं? Ask anything about your farm..."
+              className="bg-transparent text-xs text-white border-none outline-none w-full pr-2"
+            />
+            <button onClick={onOpenVoice} className="w-8 h-8 rounded-lg bg-emerald-500 hover:bg-emerald-400 flex items-center justify-center text-black shrink-0 cursor-pointer shadow">
+              <Mic className="w-4 h-4" />
+            </button>
+          </div>
         </div>
+
+      </div>
+
+      {/* FOOTER SYSTEM DIAGNOSTICS BAR */}
+      <div className="glass-panel p-3 bg-slate-950 border border-slate-800 rounded-xl flex flex-wrap items-center justify-between text-[11px] text-slate-400 font-mono gap-2">
+        <div className="flex flex-wrap items-center gap-4">
+          <span>Backend: <strong className="text-emerald-400">FastAPI</strong></span>
+          <span>AI: <strong className="text-cyan-400">Gemini</strong></span>
+          <span>Agents: <strong className="text-purple-400">LangGraph</strong></span>
+          <span>Database: <strong className="text-amber-400">PostgreSQL + PostGIS</strong></span>
+          <span>Vision: <strong className="text-red-400">YOLOv11</strong></span>
+          <span>IoT: <strong className="text-sky-400">MQTT</strong></span>
+        </div>
+
+        <span className="text-slate-500 font-bold">KrishiVerse AI © 2026</span>
       </div>
 
     </div>

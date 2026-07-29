@@ -38,12 +38,14 @@ import DroneModule from './components/modules/DroneModule';
 import SatelliteModule from './components/modules/SatelliteModule';
 import Marketplace from './components/marketplace/Marketplace';
 
-import { AlertTriangle, ArrowLeft } from 'lucide-react';
+import { 
+  LayoutGrid, Activity, MapPin, Radio, Plane, ShoppingBag, 
+  ShieldCheck, Leaf, Shield, Settings, AlertTriangle, ArrowLeft 
+} from 'lucide-react';
 
 export default function App() {
   const [currentRole, setRole] = useState('farmer'); // farmer, officer, admin
   const [currentLang, setLang] = useState('hi');
-  const [isMobileFrame, setIsMobileFrame] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const [sosActive, setSosActive] = useState(false);
@@ -99,25 +101,37 @@ export default function App() {
     }
   };
 
+  const SIDEBAR_ITEMS = [
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid },
+    { id: 'advancedAnalytics', label: 'Analytics', icon: Activity },
+    { id: 'smartFarmMap', label: 'Smart Farm Map', icon: MapPin },
+    { id: 'iot', label: 'IoT Sensors', icon: Radio },
+    { id: 'droneMission', label: 'Drone Mission', icon: Plane },
+    { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag },
+    { id: 'blockchainTrace', label: 'Traceability', icon: ShieldCheck },
+    { id: 'carbonCredit', label: 'Carbon Credit', icon: Leaf },
+    { id: 'stateCommand', label: 'Command Center', icon: Shield },
+    { id: 'settings', label: 'Settings', icon: Settings },
+  ];
+
   return (
     <CartProvider>
-      <div className="min-h-screen bg-[#0b131e] text-emerald-100 flex flex-col justify-between">
+      <div className="min-h-screen bg-[#070d17] text-slate-100 flex flex-col justify-between font-sans">
         
-        {/* Header Navigation */}
+        {/* Top Navbar */}
         <Navbar
           currentRole={currentRole} setRole={setRole}
           currentLang={currentLang} setLang={setLang}
-          isMobileFrame={isMobileFrame} setIsMobileFrame={setIsMobileFrame}
           onOpenVoice={() => setIsVoiceOpen(true)}
           onTriggerSOS={handleTriggerSOS}
         />
 
         {/* Emergency SOS Banner Toast */}
         {sosActive && (
-          <div className="w-full px-6 mb-4">
+          <div className="w-full px-5 mb-3">
             <div className="glass-panel p-4 bg-red-950 border-2 border-red-500 text-white flex items-center justify-between shadow-2xl animate-bounce">
               <div className="flex items-center space-x-3">
-                <AlertTriangle className="w-8 h-8 text-yellow-300 animate-ping" />
+                <AlertTriangle className="w-7 h-7 text-yellow-300 animate-ping" />
                 <div>
                   <h4 className="text-base font-black">EMERGENCY SOS ALERT DISPATCHED 🚨</h4>
                   <p className="text-xs text-red-200">
@@ -132,29 +146,50 @@ export default function App() {
           </div>
         )}
 
-        {/* Main App Full Page Container */}
-        <main className={`w-full flex-1 px-6 pb-12 ${isMobileFrame ? 'mobile-frame-container p-4 overflow-y-auto' : ''}`}>
+        {/* Main App Layout: Left Sidebar + Right Dashboard */}
+        <div className="flex-1 flex px-4 gap-4 max-w-[1700px] w-full mx-auto">
           
-          {/* Back Button when deep inside a sub-tool */}
-          {currentRole === 'farmer' && activeTab !== 'dashboard' && (
-            <button
-              onClick={() => setActiveTab('dashboard')}
-              className="mb-4 flex items-center space-x-1.5 text-xs text-emerald-400 font-extrabold hover:text-white bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-700 w-max transition-all cursor-pointer shadow"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Farmer Dashboard</span>
-            </button>
-          )}
+          {/* Left Vertical Icon Bar Sidebar */}
+          <aside className="w-14 bg-[#09111e]/90 border border-slate-800 rounded-2xl p-2 flex flex-col items-center space-y-4 shrink-0 shadow-2xl">
+            {SIDEBAR_ITEMS.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
 
-          {renderContent()}
-        </main>
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                    isActive 
+                      ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/30' 
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  }`}
+                  title={item.label}
+                >
+                  <Icon className="w-5 h-5" />
+                </button>
+              );
+            })}
+          </aside>
 
-        {/* Footer */}
-        <footer className="glass-panel mt-8 py-4 px-6 text-center border-t border-slate-800 text-xs text-slate-400">
-          <p className="font-semibold">
-            KrishiVerse AI – Smart Agriculture Ecosystem © 2026 • Powered by Gemini, YOLOv11, LangGraph & PostGIS
-          </p>
-        </footer>
+          {/* Main Content Area */}
+          <main className="flex-1 overflow-x-hidden">
+            
+            {/* Back Button when deep inside a sub-tool */}
+            {currentRole === 'farmer' && activeTab !== 'dashboard' && (
+              <button
+                onClick={() => setActiveTab('dashboard')}
+                className="mb-4 flex items-center space-x-1.5 text-xs text-emerald-400 font-extrabold hover:text-white bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-700 w-max transition-all cursor-pointer shadow"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Main Dashboard</span>
+              </button>
+            )}
+
+            {renderContent()}
+          </main>
+
+        </div>
 
         {/* Voice Assistant Modal */}
         <VoiceAssistantModal
