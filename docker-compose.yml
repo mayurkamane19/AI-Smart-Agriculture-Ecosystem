@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # FastAPI Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: krishiverse_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://krishi_user:krishi_pass@postgres:5432/krishiverse_db
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=krishiverse-super-secret-key-2026
+    depends_on:
+      - postgres
+      - redis
+    restart: always
+
+  # React / Next Frontend Service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: krishiverse_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - backend
+    restart: always
+
+  # PostgreSQL Relational Database with PostGIS
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: krishiverse_postgres
+    environment:
+      POSTGRES_USER: krishi_user
+      POSTGRES_PASSWORD: krishi_pass
+      POSTGRES_DB: krishiverse_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    restart: always
+
+  # Redis In-Memory Cache
+  redis:
+    image: redis:7.2-alpine
+    container_name: krishiverse_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  # ChromaDB Vector Database for AI Embeddings
+  chromadb:
+    image: chromadb/chroma:0.4.24
+    container_name: krishiverse_chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+
+volumes:
+  postgres_data:
+  chroma_data:

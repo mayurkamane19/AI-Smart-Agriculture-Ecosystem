@@ -1,0 +1,167 @@
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --bg-dark: #0b131e;
+  --bg-card: rgba(15, 23, 42, 0.90);
+  --border-glass: rgba(255, 255, 255, 0.15);
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(34, 197, 94, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 50% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 45%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Master Glassmorphism Card Container */
+.module-card {
+  position: relative;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 175px;
+}
+
+.module-card:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Top Accent Strip */
+.top-strip {
+  height: 4px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Color Theme 1: Green (AI Crop Doctor) */
+.card-green { background: linear-gradient(145deg, rgba(34, 197, 94, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(34, 197, 94, 0.45); }
+.card-green:hover { box-shadow: 0 0 30px rgba(34, 197, 94, 0.45); border-color: rgba(34, 197, 94, 0.85); }
+.top-strip-green { background: linear-gradient(90deg, #22c55e, #16a34a); }
+.icon-bg-green { background: linear-gradient(135deg, #22c55e, #16a34a); }
+
+/* Color Theme 2: Earth Brown (AI Soil Analyzer) */
+.card-brown { background: linear-gradient(145deg, rgba(161, 98, 7, 0.22), rgba(15, 23, 42, 0.95)); border-color: rgba(161, 98, 7, 0.5); }
+.card-brown:hover { box-shadow: 0 0 30px rgba(161, 98, 7, 0.5); border-color: rgba(161, 98, 7, 0.9); }
+.top-strip-brown { background: linear-gradient(90deg, #a16207, #854d0e); }
+.icon-bg-brown { background: linear-gradient(135deg, #a16207, #854d0e); }
+
+/* Color Theme 3: Amber (AI Farm Planner) */
+.card-amber { background: linear-gradient(145deg, rgba(245, 158, 11, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(245, 158, 11, 0.5); }
+.card-amber:hover { box-shadow: 0 0 30px rgba(245, 158, 11, 0.5); border-color: rgba(245, 158, 11, 0.9); }
+.top-strip-amber { background: linear-gradient(90deg, #f59e0b, #d97706); }
+.icon-bg-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+/* Color Theme 4: Blue (AI Irrigation) */
+.card-blue { background: linear-gradient(145deg, rgba(59, 130, 246, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(59, 130, 246, 0.5); }
+.card-blue:hover { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5); border-color: rgba(59, 130, 246, 0.9); }
+.top-strip-blue { background: linear-gradient(90deg, #3b82f6, #0ea5e9); }
+.icon-bg-blue { background: linear-gradient(135deg, #3b82f6, #0ea5e9); }
+
+/* Color Theme 5: Red (AI Disease Warning) */
+.card-red { background: linear-gradient(145deg, rgba(239, 68, 68, 0.20), rgba(15, 23, 42, 0.95)); border-color: rgba(239, 68, 68, 0.5); }
+.card-red:hover { box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); border-color: rgba(239, 68, 68, 0.9); }
+.top-strip-red { background: linear-gradient(90deg, #ef4444, #dc2626); }
+.icon-bg-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+/* Color Theme 6: Orange (AI Mandi Market) */
+.card-orange { background: linear-gradient(145deg, rgba(249, 115, 22, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(249, 115, 22, 0.5); }
+.card-orange:hover { box-shadow: 0 0 30px rgba(249, 115, 22, 0.5); border-color: rgba(249, 115, 22, 0.9); }
+.top-strip-orange { background: linear-gradient(90deg, #f97316, #fb923c); }
+.icon-bg-orange { background: linear-gradient(135deg, #f97316, #fb923c); }
+
+/* Color Theme 7: Purple (Agri Digital Passport) */
+.card-purple { background: linear-gradient(145deg, rgba(139, 92, 246, 0.22), rgba(15, 23, 42, 0.95)); border-color: rgba(139, 92, 246, 0.5); }
+.card-purple:hover { box-shadow: 0 0 30px rgba(139, 92, 246, 0.5); border-color: rgba(139, 92, 246, 0.9); }
+.top-strip-purple { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+.icon-bg-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+/* Color Theme 8: Cyan (AI Digital Twin) */
+.card-cyan { background: linear-gradient(145deg, rgba(6, 182, 212, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(6, 182, 212, 0.5); }
+.card-cyan:hover { box-shadow: 0 0 30px rgba(6, 182, 212, 0.5); border-color: rgba(6, 182, 212, 0.9); }
+.top-strip-cyan { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+.icon-bg-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+
+/* Color Theme 9: Violet (Multi-Agent AI) */
+.card-violet { background: linear-gradient(145deg, rgba(124, 58, 237, 0.22), rgba(15, 23, 42, 0.95)); border-color: rgba(124, 58, 237, 0.5); }
+.card-violet:hover { box-shadow: 0 0 30px rgba(124, 58, 237, 0.5); border-color: rgba(124, 58, 237, 0.9); }
+.top-strip-violet { background: linear-gradient(90deg, #7c3aed, #9333ea); }
+.icon-bg-violet { background: linear-gradient(135deg, #7c3aed, #9333ea); }
+
+/* Color Theme 10: Emerald (Expense & ROI) */
+.card-emerald { background: linear-gradient(145deg, rgba(16, 185, 129, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(16, 185, 129, 0.5); }
+.card-emerald:hover { box-shadow: 0 0 30px rgba(16, 185, 129, 0.5); border-color: rgba(16, 185, 129, 0.9); }
+.top-strip-emerald { background: linear-gradient(90deg, #10b981, #059669); }
+.icon-bg-emerald { background: linear-gradient(135deg, #10b981, #059669); }
+
+/* Color Theme 11: Yellow (Government Schemes) */
+.card-yellow { background: linear-gradient(145deg, rgba(250, 204, 21, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(250, 204, 21, 0.5); }
+.card-yellow:hover { box-shadow: 0 0 30px rgba(250, 204, 21, 0.5); border-color: rgba(250, 204, 21, 0.9); }
+.top-strip-yellow { background: linear-gradient(90deg, #facc15, #eab308); }
+.icon-bg-yellow { background: linear-gradient(135deg, #facc15, #eab308); }
+
+/* Color Theme 12: Indigo (IoT Telemetry) */
+.card-indigo { background: linear-gradient(145deg, rgba(79, 70, 229, 0.22), rgba(15, 23, 42, 0.95)); border-color: rgba(79, 70, 229, 0.5); }
+.card-indigo:hover { box-shadow: 0 0 30px rgba(79, 70, 229, 0.5); border-color: rgba(79, 70, 229, 0.9); }
+.top-strip-indigo { background: linear-gradient(90deg, #4f46e5, #4338ca); }
+.icon-bg-indigo { background: linear-gradient(135deg, #4f46e5, #4338ca); }
+
+/* Color Theme 13: Sky Blue (Drone Inspection) */
+.card-skyblue { background: linear-gradient(145deg, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.95)); border-color: rgba(56, 189, 248, 0.5); }
+.card-skyblue:hover { box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); border-color: rgba(56, 189, 248, 0.9); }
+.top-strip-skyblue { background: linear-gradient(90deg, #38bdf8, #0284c7); }
+.icon-bg-skyblue { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+
+/* Color Theme 14: Deep Blue (Satellite NDVI) */
+.card-deepblue { background: linear-gradient(145deg, rgba(37, 99, 235, 0.20), rgba(15, 23, 42, 0.95)); border-color: rgba(37, 99, 235, 0.5); }
+.card-deepblue:hover { box-shadow: 0 0 30px rgba(37, 99, 235, 0.5); border-color: rgba(37, 99, 235, 0.9); }
+.top-strip-deepblue { background: linear-gradient(90deg, #2563eb, #1d4ed8); }
+.icon-bg-deepblue { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+
+/* Color Theme 15: Pink (Agri Marketplace) */
+.card-pink { background: linear-gradient(145deg, rgba(236, 72, 153, 0.20), rgba(15, 23, 42, 0.95)); border-color: rgba(236, 72, 153, 0.5); }
+.card-pink:hover { box-shadow: 0 0 30px rgba(236, 72, 153, 0.5); border-color: rgba(236, 72, 153, 0.9); }
+.top-strip-pink { background: linear-gradient(90deg, #ec4899, #db2777); }
+.icon-bg-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+/* High Contrast Glass Panels */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+}
+
+.text-white-pure { color: #ffffff !important; }
+.text-slate-light { color: #cbd5e1 !important; }
+
+/* Custom Scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0b131e; }
+::-webkit-scrollbar-thumb { background: #22c55e; border-radius: 3px; }
+
+/* Leaflet Container Fix */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  z-index: 10;
+}
