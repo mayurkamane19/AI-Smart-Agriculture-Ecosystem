@@ -1,5 +1,4 @@
 services:
-  # 1. FastAPI Python AI Backend Web Service
   - type: web
     name: krishiverse-backend
     env: python
@@ -14,14 +13,12 @@ services:
       - key: JWT_SECRET
         generateValue: true
 
-  # 2. React Vite Frontend Static Site (No region allowed for static sites)
   - type: static
     name: krishiverse-frontend
     buildCommand: "npm install && npm run build"
     staticPublishPath: "./dist"
 
 databases:
-  # 3. PostgreSQL Database
   - name: krishiverse-db
     databaseName: krishiverse
     user: krishi_admin
