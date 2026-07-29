@@ -1,5 +1,5 @@
 services:
-  # 1. FastAPI Python AI Backend Service
+  # 1. FastAPI Python AI Backend Web Service
   - type: web
     name: krishiverse-backend
     env: python
@@ -14,11 +14,9 @@ services:
       - key: JWT_SECRET
         generateValue: true
 
-  # 2. React Vite Frontend Web App
-  - type: web
+  # 2. React Vite Frontend Static Site (No region allowed for static sites)
+  - type: static
     name: krishiverse-frontend
-    env: static
-    region: singapore
     buildCommand: "npm install && npm run build"
     staticPublishPath: "./dist"
 
