@@ -13,8 +13,9 @@ services:
       - key: JWT_SECRET
         generateValue: true
 
-  - type: static
+  - type: web
     name: krishiverse-frontend
+    env: static
     buildCommand: "npm install && npm run build"
     staticPublishPath: "./dist"
 
