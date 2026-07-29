@@ -114,7 +114,7 @@ export default function App() {
 
         {/* Emergency SOS Banner Toast */}
         {sosActive && (
-          <div className="max-w-4xl mx-auto px-4 w-full mb-4">
+          <div className="w-full px-6 mb-4">
             <div className="glass-panel p-4 bg-red-950 border-2 border-red-500 text-white flex items-center justify-between shadow-2xl animate-bounce">
               <div className="flex items-center space-x-3">
                 <AlertTriangle className="w-8 h-8 text-yellow-300 animate-ping" />
@@ -132,14 +132,14 @@ export default function App() {
           </div>
         )}
 
-        {/* Main App Container */}
-        <main className={`w-full flex-1 px-4 pb-12 ${isMobileFrame ? 'mobile-frame-container p-4 overflow-y-auto' : 'max-w-7xl mx-auto'}`}>
+        {/* Main App Full Page Container */}
+        <main className={`w-full flex-1 px-6 pb-12 ${isMobileFrame ? 'mobile-frame-container p-4 overflow-y-auto' : ''}`}>
           
           {/* Back Button when deep inside a sub-tool */}
           {currentRole === 'farmer' && activeTab !== 'dashboard' && (
             <button
               onClick={() => setActiveTab('dashboard')}
-              className="mb-4 flex items-center space-x-1.5 text-xs text-emerald-400 font-extrabold hover:text-white bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-700 w-max transition-all cursor-pointer"
+              className="mb-4 flex items-center space-x-1.5 text-xs text-emerald-400 font-extrabold hover:text-white bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-700 w-max transition-all cursor-pointer shadow"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Farmer Dashboard</span>
@@ -150,7 +150,7 @@ export default function App() {
         </main>
 
         {/* Footer */}
-        <footer className="glass-panel mt-8 py-4 px-4 text-center border-t border-slate-800 text-xs text-slate-400">
+        <footer className="glass-panel mt-8 py-4 px-6 text-center border-t border-slate-800 text-xs text-slate-400">
           <p className="font-semibold">
             KrishiVerse AI – Smart Agriculture Ecosystem © 2026 • Powered by Gemini, YOLOv11, LangGraph & PostGIS
           </p>
